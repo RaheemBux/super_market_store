@@ -16,6 +16,7 @@ public class SuperMarketStore {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("I have done some changes");
     }
     
 }
