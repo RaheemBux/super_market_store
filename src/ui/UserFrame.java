@@ -16,7 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import models.User;
+import model.User;
 
 /**
  *
@@ -46,7 +46,7 @@ public class UserFrame extends javax.swing.JFrame {
 
         for (User u : user) {
             
-            Object[] row = {u.getId(),u.getfName(),u.getlName(),u.getPhoneNum(),u.getUEmail(),u.getPassword(),u.getCreatedDate(),u.getModifiedDate(),"","",u.isStatus()};
+            Object[] row = {u.getId(),u.getfirstName(),u.getlastName(),u.getPhoneNum(),u.getUEmail(),u.getPassword(),u.getCreatedDate(),u.getModifiedDate(),"sms","sms",u.isStatus()};
             userTableModel.addRow(row);
             userTable.setModel(userTableModel);
 
@@ -57,27 +57,26 @@ public class UserFrame extends javax.swing.JFrame {
     }
 
    private void clearFields() {
-        fname.setText("");
-        lname.setText("");
+        firstName.setText("");
+        lastName.setText("");
         phoneNum.setText("");
-        user_email.setText("");
+        email.setText("");
         password.setText("");
     }
     private User getUserFields(){
-        String fName = fname.getText();
-        String lName = lname.getText();
+        String fName = firstName.getText();
+        String lName = lastName.getText();
         String phNum = phoneNum.getText();
-        String userEmail = user_email.getText();
+        String userEmail = email.getText();
         String userPwd = password.getText();
         
         User user = new User();
-        user.setfName(fName);
-        user.setlName(lName);
+        user.setfirstName(fName);
+        user.setlastName(lName);
         user.setUEmail(userEmail);
         user.setPhoneNum(phNum);
         user.setPassword(userPwd);
         
-        //Date obj = new Date();
         user.setCreatedDate( new Date(System.currentTimeMillis()));
         user.setModifiedDate(new Date(System.currentTimeMillis()));
         return user;
@@ -93,15 +92,15 @@ public class UserFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         backBtn = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        fname = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        lname = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        firstNameLabel = new javax.swing.JLabel();
+        firstName = new javax.swing.JTextField();
+        lastNameLabel = new javax.swing.JLabel();
+        lastName = new javax.swing.JTextField();
+        phoneNumLabel = new javax.swing.JLabel();
         phoneNum = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        user_email = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
         addBtn = new javax.swing.JButton();
         UpdateBtn = new javax.swing.JButton();
         ClearBtn = new javax.swing.JButton();
@@ -118,32 +117,32 @@ public class UserFrame extends javax.swing.JFrame {
 
         backBtn.setText("Back");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("FName : ");
+        firstNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        firstNameLabel.setText("Fisrt Name : ");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("LName : ");
+        lastNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lastNameLabel.setText("Last Name : ");
 
-        lname.addActionListener(new java.awt.event.ActionListener() {
+        lastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lnameActionPerformed(evt);
+                lastNameActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Ph# : ");
+        phoneNumLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        phoneNumLabel.setText("Ph# : ");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Email");
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        emailLabel.setText("Email");
 
-        user_email.addActionListener(new java.awt.event.ActionListener() {
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                user_emailActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Password :");
+        passwordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        passwordLabel.setText("Password :");
 
         addBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         addBtn.setText("Add");
@@ -212,24 +211,24 @@ public class UserFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
+                                    .addComponent(passwordLabel)
+                                    .addComponent(lastNameLabel)
+                                    .addComponent(firstNameLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fname)
-                                    .addComponent(lname, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                                    .addComponent(firstName)
+                                    .addComponent(lastName, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                                     .addComponent(password))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel5)
+                                                .addComponent(emailLabel)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(user_email, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel4)
+                                                .addComponent(phoneNumLabel)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(phoneNum, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(107, 107, 107))
@@ -256,25 +255,25 @@ public class UserFrame extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
+                            .addComponent(phoneNumLabel)
                             .addComponent(phoneNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(user_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(emailLabel)
+                            .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backBtn)
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(firstNameLabel)
+                            .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(lname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lastNameLabel)
+                            .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(passwordLabel)
                     .addComponent(addBtn)
                     .addComponent(UpdateBtn)
                     .addComponent(ClearBtn)
@@ -288,13 +287,13 @@ public class UserFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lnameActionPerformed
+    private void lastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_lnameActionPerformed
+    }//GEN-LAST:event_lastNameActionPerformed
 
-    private void user_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_user_emailActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_user_emailActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
@@ -325,9 +324,9 @@ public class UserFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         userId = Integer.parseInt(userTable.getValueAt(userTable.getSelectedRow(), 0).toString());
         User user = userDAO.getUserById(userId);
-        fname.setText(user.getfName());
-        lname.setText(user.getlName());
-        user_email.setText(user.getUEmail());
+        firstName.setText(user.getfirstName());
+        lastName.setText(user.getlastName());
+        email.setText(user.getUEmail());
         phoneNum.setText(user.getPhoneNum());
        
         password.setText(user.getPassword());
@@ -393,18 +392,18 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JButton UpdateBtn;
     private javax.swing.JButton addBtn;
     private javax.swing.JButton backBtn;
-    private javax.swing.JTextField fname;
+    private javax.swing.JTextField email;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JTextField firstName;
+    private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField lname;
+    private javax.swing.JTextField lastName;
+    private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField password;
+    private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField phoneNum;
+    private javax.swing.JLabel phoneNumLabel;
     private javax.swing.JTable userTable;
-    private javax.swing.JTextField user_email;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.User;
+import model.User;
 
 /**
  *
@@ -22,7 +22,7 @@ import models.User;
  */
 public class UserDAOImpl implements UserDAO {
 
-    private final String INSERT_QUERY = "INSERT INTO user (first_Name,last_Name,phone_number,email,user_password,created_date,modified_date,bool_active) VALUES (?,?,?,?,?,?,?,?)";
+    private final String INSERT_QUERY = "INSERT INTO user (first_Name,last_Name,phone_number,email,user_password,created_date,modified_date,created_by,updated_by,bool_active) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private final String SELECT_QUERY = "SELECT * FROM user where bool_active=true";
     private final String SELECT_QUERY_SINGLE = "SELECT * FROM user where id=?";
     private final String UPDATE_QUERY = "UPDATE user SET first_Name = ?,last_Name = ?,phone_number = ?,email = ?,user_password=?,modified_date=? where id = ?";
@@ -33,18 +33,20 @@ public class UserDAOImpl implements UserDAO {
         boolean success = false;
 
         try {
-            Connection con = DbConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(INSERT_QUERY);
-            ps.setString(1, user.getfName());
-            ps.setString(2, user.getlName());
-            ps.setString(3, user.getPhoneNum());
-            ps.setString(4, user.getUEmail());
-            ps.setString(5, user.getPassword());
-            ps.setDate(6, user.getCreatedDate());
-            ps.setDate(7, user.getModifiedDate());
-            ps.setBoolean(8, true);
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
+            preparedStatement.setString(1, user.getfirstName());
+            preparedStatement.setString(2, user.getlastName());
+            preparedStatement.setString(3, user.getPhoneNum());
+            preparedStatement.setString(4, user.getUEmail());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setDate(6, user.getCreatedDate());
+            preparedStatement.setDate(7, user.getModifiedDate());
+            preparedStatement.setString(8, "sms");
+            preparedStatement.setString(9, "sms");
+            preparedStatement.setBoolean(10, true);
             
-            ps.execute();
+            preparedStatement.execute();
             success = true;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,21 +57,21 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(Integer id) {
         try {
-            Connection conn = DbConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(SELECT_QUERY_SINGLE);
-            ps.setInt(1, id);
-            ResultSet rst = ps.executeQuery();
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY_SINGLE);
+            preparedStatement.setInt(1, id);
+            ResultSet rst = preparedStatement.executeQuery();
 
-            User u = new User();
+            User user = new User();
             while (rst.next()) {
-                u.setId(id);
-                u.setfName(rst.getString("first_Name"));
-                u.setlName(rst.getString("last_Name"));
-                u.setUEmail(rst.getString("email"));
-                u.setPhoneNum(rst.getString("phone_number"));
-                u.setPassword(rst.getString("user_password"));
+                user.setId(id);
+                user.setfirstName(rst.getString("first_Name"));
+                user.setlastName(rst.getString("last_Name"));
+                user.setUEmail(rst.getString("email"));
+                user.setPhoneNum(rst.getString("phone_number"));
+                user.setPassword(rst.getString("user_password"));
             }
-            return u;
+            return user;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,10 +83,10 @@ public class UserDAOImpl implements UserDAO {
 
         boolean success = false;
         try {
-            Connection con = DbConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(UPDATE_STATUS);
-            ps.setInt(1, user.getId());
-            ps.execute();
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_STATUS);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.execute();
             success = true;
 
         } catch (SQLException e) {
@@ -97,37 +99,36 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> getAllUser() {
 
-        List<User> list = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try {
-            Connection con = DbConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(SELECT_QUERY);
-            ResultSet rst = ps.executeQuery();
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY);
+            ResultSet rst = preparedStatement.executeQuery();
 
             while (rst.next()) {
                 User user = new User();
-//                System.out.println(rst.getString("email"));
                 user.setId(rst.getInt("id"));
-                user.setfName(rst.getString("first_Name"));
-                user.setlName(rst.getString("last_Name"));
+                user.setfirstName(rst.getString("first_Name"));
+                user.setlastName(rst.getString("last_Name"));
                 user.setPhoneNum(rst.getString("phone_number"));
                 user.setUEmail(rst.getString("email"));
                 user.setPassword(rst.getString("user_password"));
                 user.setCreatedDate(rst.getDate("created_date"));
                 user.setModifiedDate(rst.getDate("modified_date"));
                 user.setStatus(rst.getBoolean("bool_active"));
-                list.add(user);
+                users.add(user);
 
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAOImpl.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
+        return users;
     }
 
     @Override
     public User getUserIDByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
@@ -136,18 +137,18 @@ public class UserDAOImpl implements UserDAO {
 
         try {
 
-            Connection con = DbConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(UPDATE_QUERY);
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY);
 
-            ps.setString(1, user.getfName());
-            ps.setString(2, user.getlName());
-            ps.setString(3, user.getPhoneNum());
-            ps.setString(4, user.getUEmail());
-            ps.setString(5, user.getPassword());
-            ps.setDate(6, user.getModifiedDate());
-            ps.setInt(7, user.getId());
+            preparedStatement.setString(1, user.getfirstName());
+            preparedStatement.setString(2, user.getlastName());
+            preparedStatement.setString(3, user.getPhoneNum());
+            preparedStatement.setString(4, user.getUEmail());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setDate(6, user.getModifiedDate());
+            preparedStatement.setInt(7, user.getId());
 
-            ps.execute();
+            preparedStatement.execute();
             return success = true;
 
         } catch (SQLException ex) {
