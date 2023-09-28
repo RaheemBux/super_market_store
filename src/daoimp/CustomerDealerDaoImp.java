@@ -37,18 +37,18 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
 
         boolean success = true;
         try {
-            PreparedStatement ps = connection.prepareStatement(ADD_CUSTOMERDEALER);
-            ps.setString(1, customerDealer.getCustomerDealerName());
-            ps.setObject(2, CustomerDealerEnum.valueOf(customerDealer.getCustomerDealerEnum().toString()).ordinal());
-            ps.setString(3, customerDealer.getEmail());
-            ps.setString(4, customerDealer.getPhoneNumber());
-            ps.setString(5, customerDealer.getAddress());
-            ps.setDate(6, customerDealer.getCreateDate());
-            ps.setDate(7, customerDealer.getModifiedDate());
-            ps.setString(8, customerDealer.getCreatedBy());
-            ps.setString(9, customerDealer.getUpdatedBy());
-            ps.setInt(10, customerDealer.isActive());
-            ps.execute();
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD_CUSTOMERDEALER);
+            preparedStatement.setString(1, customerDealer.getCustomerDealerName());
+            preparedStatement.setObject(2, CustomerDealerEnum.valueOf(customerDealer.getCustomerDealerEnum().toString()).ordinal());
+            preparedStatement.setString(3, customerDealer.getEmail());
+            preparedStatement.setString(4, customerDealer.getPhoneNumber());
+            preparedStatement.setString(5, customerDealer.getAddress());
+            preparedStatement.setDate(6, customerDealer.getCreateDate());
+            preparedStatement.setDate(7, customerDealer.getModifiedDate());
+            preparedStatement.setString(8, customerDealer.getCreatedBy());
+            preparedStatement.setString(9, customerDealer.getUpdatedBy());
+            preparedStatement.setInt(10, customerDealer.isActive());
+            preparedStatement.execute();
         } catch (Exception e) {
              Logger.getLogger(CustomerDealerDaoImp.class.getName()).log(Level.SEVERE, null, e);
             success = false;
@@ -61,18 +61,18 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
 
         boolean success = true;
         try {
-            PreparedStatement ps = connection.prepareStatement(UPDATE_CUSTOMERDEALER);
-            ps.setString(1, customerDealer.getCustomerDealerName());
-            ps.setObject(2, CustomerDealerEnum.valueOf(customerDealer.getCustomerDealerEnum().toString()).ordinal());
-            ps.setString(3, customerDealer.getEmail());
-            ps.setString(4, customerDealer.getPhoneNumber());
-            ps.setString(5, customerDealer.getAddress());
-            ps.setDate(6, customerDealer.getModifiedDate());
-            ps.setString(7, customerDealer.getCreatedBy());
-            ps.setString(8, customerDealer.getUpdatedBy());
-            ps.setInt(9, customerDealer.isActive());
-            ps.setInt(10, customerDealer.getCustomerDealerId());
-            ps.execute();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMERDEALER);
+            preparedStatement.setString(1, customerDealer.getCustomerDealerName());
+            preparedStatement.setObject(2, CustomerDealerEnum.valueOf(customerDealer.getCustomerDealerEnum().toString()).ordinal());
+            preparedStatement.setString(3, customerDealer.getEmail());
+            preparedStatement.setString(4, customerDealer.getPhoneNumber());
+            preparedStatement.setString(5, customerDealer.getAddress());
+            preparedStatement.setDate(6, customerDealer.getModifiedDate());
+            preparedStatement.setString(7, customerDealer.getCreatedBy());
+            preparedStatement.setString(8, customerDealer.getUpdatedBy());
+            preparedStatement.setInt(9, customerDealer.isActive());
+            preparedStatement.setInt(10, customerDealer.getCustomerDealerId());
+            preparedStatement.execute();
         } catch (Exception e) {
              Logger.getLogger(CustomerDealerDaoImp.class.getName()).log(Level.SEVERE, null, e);
             success = false;
@@ -80,12 +80,13 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
         return success;
     }
 
+    @Override
     public boolean deleteCustomerDealer(Integer id) {
         boolean success = true;
         try {
-            PreparedStatement ps = connection.prepareStatement(DELETE_CUSTOMERDEALER);
-            ps.setInt(1, id);
-            ps.execute();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMERDEALER);
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
         } catch (Exception e) {
               Logger.getLogger(CustomerDealerDaoImp.class.getName()).log(Level.SEVERE, null, e);
             success = false;
@@ -97,8 +98,8 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     public List<CustomerDealer> getAllCustomerDealer() {
         List<CustomerDealer> getAllCustomerDealers = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(GET_ALL_CUSTOMERDEALER);
-            ResultSet resultSet = ps.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CUSTOMERDEALER);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 CustomerDealer customerDealer = new CustomerDealer();
                 customerDealer.setCustomerDealerId(resultSet.getInt("id"));
@@ -125,9 +126,9 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     @Override
     public CustomerDealer getCustomerDealerById(Integer id) {
         try {
-            PreparedStatement ps = connection.prepareStatement(GET_CUSTOMERDEALER_BY_ID);
-            ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_CUSTOMERDEALER_BY_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 CustomerDealer customerDealer = new CustomerDealer();
 

@@ -33,7 +33,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         filltypeComboBox();
     }
 
-    String columns[] = {"ID", "NAME", "Type", "EMAIL", "PHONE NUMBER", "ADDRESS", "CREATED DATE", "MODIFIED DATE"};
+    String columns[] = {"ID", "NAME", "Type", "EMAIL", "PHONE NUMBER", "ADDRESS", "CREATED DATE", "MODIFIED DATE","CREATED BY","UPDATED BY"};
     DefaultTableModel customerDealerDefaultTableModel;
 
     CustomerDealerDao customerDealerDao = new CustomerDealerDaoImp();
@@ -44,7 +44,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         List<CustomerDealer> getCustomerDealer = customerDealerDao.getAllCustomerDealer();
         for (CustomerDealer cd : getCustomerDealer) {
 
-            Object row[] = {cd.getCustomerDealerId(), cd.getCustomerDealerName(), cd.getCustomerDealerEnum().toString(), cd.getEmail(), cd.getPhoneNumber(), cd.getAddress(), cd.getCreateDate(), cd.getModifiedDate()};
+            Object row[] = {cd.getCustomerDealerId(), cd.getCustomerDealerName(), cd.getCustomerDealerEnum().toString(), cd.getEmail(), cd.getPhoneNumber(), cd.getAddress(), cd.getCreateDate(), cd.getModifiedDate(),cd.getCreatedBy(),cd.getUpdatedBy()};
 
             customerDealerDefaultTableModel.addRow(row);
 
@@ -53,12 +53,14 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
 
         customerDelaerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
         customerDelaerTable.getColumnModel().getColumn(1).setPreferredWidth(120);
-        customerDelaerTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        customerDelaerTable.getColumnModel().getColumn(2).setPreferredWidth(60);
         customerDelaerTable.getColumnModel().getColumn(3).setPreferredWidth(110);
         customerDelaerTable.getColumnModel().getColumn(4).setPreferredWidth(90);
         customerDelaerTable.getColumnModel().getColumn(5).setPreferredWidth(60);
         customerDelaerTable.getColumnModel().getColumn(6).setPreferredWidth(80);
         customerDelaerTable.getColumnModel().getColumn(7).setPreferredWidth(80);
+        customerDelaerTable.getColumnModel().getColumn(8).setPreferredWidth(80);
+        customerDelaerTable.getColumnModel().getColumn(9).setPreferredWidth(80);
 
     }
 
@@ -95,6 +97,8 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         customerDealer.setCreateDate(currentDate);
         customerDealer.setModifiedDate(modifedDate);
         customerDealer.setActive(1);
+        customerDealer.setCreatedBy("SMS");
+        customerDealer.setUpdatedBy("SMS");
         return customerDealer;
 
     }
@@ -122,14 +126,14 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         customerDelaerTable = new javax.swing.JTable();
         nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        nameLabel1 = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
-        nameLabel2 = new javax.swing.JLabel();
-        nameLabel3 = new javax.swing.JLabel();
+        phoneNumberLabel = new javax.swing.JLabel();
+        addressLabel = new javax.swing.JLabel();
         phoneNumberField = new javax.swing.JTextField();
         addressField = new javax.swing.JTextField();
         addButton = new javax.swing.JButton();
-        nameLabel4 = new javax.swing.JLabel();
+        typeLabel = new javax.swing.JLabel();
         typeComboBox = new javax.swing.JComboBox<>();
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
@@ -167,8 +171,8 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
             }
         });
 
-        nameLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        nameLabel1.setText("Email");
+        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        emailLabel.setText("Email");
 
         emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,11 +180,11 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
             }
         });
 
-        nameLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        nameLabel2.setText("Phone Number");
+        phoneNumberLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        phoneNumberLabel.setText("Phone Number");
 
-        nameLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        nameLabel3.setText("Address");
+        addressLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        addressLabel.setText("Address");
 
         addButton.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         addButton.setText("ADD");
@@ -190,8 +194,8 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
             }
         });
 
-        nameLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        nameLabel4.setText("Type");
+        typeLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        typeLabel.setText("Type");
 
         typeComboBox.setSelectedItem("");
 
@@ -232,39 +236,37 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(nameLabel3)
-                                            .addComponent(nameLabel4))
-                                        .addGap(83, 83, 83)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(addressField)
-                                            .addComponent(typeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(nameLabel1)
-                                            .addComponent(nameLabel))
-                                        .addGap(101, 101, 101)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                                            .addComponent(nameField)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(nameLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(phoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(43, 43, 43)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clearButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(updateButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(54, 54, 54)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 843, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                                    .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(addressLabel)
+                                        .addComponent(typeLabel))
+                                    .addGap(83, 83, 83)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(addressField)
+                                        .addComponent(typeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(emailLabel)
+                                        .addComponent(nameLabel))
+                                    .addGap(101, 101, 101)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                                        .addComponent(nameField)))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(phoneNumberLabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(phoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,19 +281,19 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
                             .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(phoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(63, 63, 63)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -431,21 +433,21 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JTextField addressField;
+    private javax.swing.JLabel addressLabel;
     private javax.swing.JButton clearButton;
     private javax.swing.JLabel customerDealerLabel;
     private javax.swing.JTable customerDelaerTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JLabel nameLabel1;
-    private javax.swing.JLabel nameLabel2;
-    private javax.swing.JLabel nameLabel3;
-    private javax.swing.JLabel nameLabel4;
     private javax.swing.JTextField phoneNumberField;
+    private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JComboBox<CustomerDealerEnum> typeComboBox;
+    private javax.swing.JLabel typeLabel;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
