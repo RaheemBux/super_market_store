@@ -4,7 +4,7 @@ import constant.CustomerDealerEnum;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class CustomerDealer {
+public class CustomerDealer extends AuditableEntity {
 
     private int customerDealerId;
     private String customerDealerName;
@@ -12,11 +12,7 @@ public class CustomerDealer {
     private String email;
     private String phoneNumber;
     private String address;
-    private Date createDate;
-    private Date modifiedDate;
-    private String createdBy;
-    private String updatedBy;
-    private int active;
+   
 
     public int getCustomerDealerId() {
         return customerDealerId;
@@ -58,45 +54,6 @@ public class CustomerDealer {
         this.address = address;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public int isActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
 
     public CustomerDealerEnum getCustomerDealerEnum() {
         return customerDealerEnum;

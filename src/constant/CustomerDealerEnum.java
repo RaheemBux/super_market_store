@@ -10,6 +10,6 @@ package constant;
  * @author Haseeb
  */
 public enum CustomerDealerEnum {
-    Select_TYPE, Dealer, Customer;
+   DEALER,CUSTOMER;
 
 }

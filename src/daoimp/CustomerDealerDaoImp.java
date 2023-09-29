@@ -28,7 +28,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     private static final String UPDATE_CUSTOMERDEALER = "UPDATE customer_dealer SET customer_dealer_name=?,type=?,email=?,phone_number=?,address=?,modified_date=?,created_by=?,updated_by=?,bool_active=? WHERE id=?;";
     private static final String GET_ALL_CUSTOMERDEALER = "SELECT * FROM customer_dealer WHERE bool_active=1;";
     private static final String GET_CUSTOMERDEALER_BY_ID = "SELECT * FROM customer_dealer where id=?;";
-    private static final String DELETE_CUSTOMERDEALER = "UPDATE customer_dealer SET bool_active=0 WHERE id=?;";
+    private static final String DELETE_CUSTOMERDEALER = "UPDATE customer_dealer SET bool_active=False WHERE id=?;";
 
     Connection connection = DbConnection.getConnection();
 
@@ -47,7 +47,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
             preparedStatement.setDate(7, customerDealer.getModifiedDate());
             preparedStatement.setString(8, customerDealer.getCreatedBy());
             preparedStatement.setString(9, customerDealer.getUpdatedBy());
-            preparedStatement.setInt(10, customerDealer.isActive());
+            preparedStatement.setBoolean(10, customerDealer.isActive());
             preparedStatement.execute();
         } catch (Exception e) {
              Logger.getLogger(CustomerDealerDaoImp.class.getName()).log(Level.SEVERE, null, e);
@@ -70,7 +70,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
             preparedStatement.setDate(6, customerDealer.getModifiedDate());
             preparedStatement.setString(7, customerDealer.getCreatedBy());
             preparedStatement.setString(8, customerDealer.getUpdatedBy());
-            preparedStatement.setInt(9, customerDealer.isActive());
+            preparedStatement.setBoolean(9, customerDealer.isActive());
             preparedStatement.setInt(10, customerDealer.getCustomerDealerId());
             preparedStatement.execute();
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
                 customerDealer.setModifiedDate(resultSet.getDate("modified_date"));
                 customerDealer.setCreatedBy(resultSet.getString("created_by"));
                 customerDealer.setUpdatedBy(resultSet.getString("updated_by"));
-                customerDealer.setActive(resultSet.getInt("bool_active"));
+                customerDealer.setActive(resultSet.getBoolean("bool_active"));
 
                 getAllCustomerDealers.add(customerDealer);
 
@@ -142,7 +142,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
                 customerDealer.setModifiedDate(resultSet.getDate("modified_date"));
                 customerDealer.setCreatedBy(resultSet.getString("created_by"));
                 customerDealer.setUpdatedBy(resultSet.getString("updated_by"));
-                customerDealer.setActive(resultSet.getInt("bool_active"));
+                customerDealer.setActive(resultSet.getBoolean("bool_active"));
                 return customerDealer;
 
             }

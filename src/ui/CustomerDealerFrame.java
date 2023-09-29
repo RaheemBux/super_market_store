@@ -65,6 +65,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
     }
 
     private void filltypeComboBox() {
+       
         for (CustomerDealerEnum cde : CustomerDealerEnum.values()) {
             typeComboBox.setModel(new DefaultComboBoxModel<>(CustomerDealerEnum.values()));
         }
@@ -96,7 +97,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         customerDealer.setPhoneNumber(phoneNumber);
         customerDealer.setCreateDate(currentDate);
         customerDealer.setModifiedDate(modifedDate);
-        customerDealer.setActive(1);
+        customerDealer.setActive(true);
         customerDealer.setCreatedBy("SMS");
         customerDealer.setUpdatedBy("SMS");
         return customerDealer;
@@ -138,6 +139,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,7 +199,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         typeLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         typeLabel.setText("Type");
 
-        typeComboBox.setSelectedItem("");
+        typeComboBox.setSelectedItem("Select ");
 
         updateButton.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         updateButton.setText("UPDATE");
@@ -223,6 +225,8 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -232,7 +236,9 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(customerDealerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-                        .addGap(857, 857, 857))
+                        .addGap(241, 241, 241)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(560, 560, 560))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -272,7 +278,9 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(customerDealerLabel)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(customerDealerLabel)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -343,8 +351,8 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        if (validatePhoneNumber()) {
-            if (checkFields()) {
+        if (checkFields()) {
+            if (validatePhoneNumber()) {
                 boolean success = customerDealerDao.addCustomerDealer(getCustomerDealerData());
                 if (success) {
                     JOptionPane.showMessageDialog(this, "Added Successfully");
@@ -440,6 +448,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameField;
