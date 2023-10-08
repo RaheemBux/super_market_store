@@ -39,7 +39,7 @@ public class ProductFrame extends javax.swing.JFrame {
 
         for (Product p : product) {
 
-            Object[] row = {p.getId(), p.getProduct_name(), p.getCategory_id(), p.getBrand(), p.getProduct_description(), p.getCreated_date(), p.getModified_date(), p.getCreated_by(), p.getUpdated_by(), p.getStatus()};
+            Object[] row = {p.getId(), p.getName(), p.getCategoryId(), p.getBrand(), p.getDescription(), p.getCreatedDate(), p.getModifiedDate(), p.getCreatedBy(), p.getUpdatedBy(), p.getStatus()};
             productTableModel.addRow(row);
             productTable.setModel(productTableModel);
 
@@ -57,10 +57,10 @@ public class ProductFrame extends javax.swing.JFrame {
 
         product = new Product();
 
-        product.setProduct_name(name);
-        product.setCategory_id(category_id);
+        product.setName(name);
+        product.setCategoryId(category_id);
         product.setBrand(brand);
-        product.setProduct_description(description);
+        product.setDescription(description);
     }
 
     /**
@@ -345,8 +345,8 @@ public class ProductFrame extends javax.swing.JFrame {
         String addorupdateby = addorchangebyField.getText();
         Date createddate = new Date();
 
-        product.setCreated_date(createddate);
-        product.setCreated_by(addorupdateby);
+        product.setCreatedDate(createddate);
+        product.setCreatedBy(addorupdateby);
         product.setStatus(true);
 
         boolean success = productdao.addProduct(product);
@@ -368,8 +368,8 @@ public class ProductFrame extends javax.swing.JFrame {
         Date modifieddate = new Date();
         
         product.setId(productid);
-        product.setModified_date(modifieddate);
-        product.setUpdated_by(addorupdateby);
+        product.setModifiedDate(modifieddate);
+        product.setUpdatedBy(addorupdateby);
         product.setStatus(true);
 
         boolean success = productdao.updateProduct(product);
@@ -413,11 +413,11 @@ public class ProductFrame extends javax.swing.JFrame {
         productid = (int) productTable.getValueAt(productTable.getSelectedRow(), 0);
         product = productdao.getProductById(productid);
 
-        nameField.setText(product.getProduct_name());
-        categoryidField.setValue(product.getCategory_id());
+        nameField.setText(product.getName());
+        categoryidField.setValue(product.getCategoryId());
         brandField.setText(product.getBrand());
-        addorchangebyField.setText(product.getCreated_by());
-        descriptionField.setText(product.getProduct_description());
+        addorchangebyField.setText(product.getCreatedBy());
+        descriptionField.setText(product.getDescription());
 
     }//GEN-LAST:event_productTableMouseClicked
 

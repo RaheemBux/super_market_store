@@ -11,17 +11,13 @@ import java.util.Date;
  *
  * @author Ahmed
  */
-public class Product {
+public class Product extends AuditableEntity{
     private int id;
-    private String product_name;
-    private int category_id;
+    private String name;
+    private int categoryid;
     private String brand;
-    private String product_description;
-    private Date created_date;
-    private Date modified_date;
-    private String created_by;
-    private String updated_by;
-    private Boolean status;
+    private String description;
+    
 
     public int getId() {
         return id;
@@ -31,20 +27,20 @@ public class Product {
         this.id = id;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getName() {
+        return name;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getCategoryId() {
+        return categoryid;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(int categoryid) {
+        this.categoryid = categoryid;
     }
 
     public String getBrand() {
@@ -55,52 +51,14 @@ public class Product {
         this.brand = brand;
     }
 
-    public String getProduct_description() {
-        return product_description;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProduct_description(String product_description) {
-        this.product_description = product_description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Date getCreated_date() {
-        return created_date;
-    }
-
-    public void setCreated_date(Date created_date) {
-        this.created_date = created_date;
-    }
-
-    public Date getModified_date() {
-        return modified_date;
-    }
-
-    public void setModified_date(Date modified_date) {
-        this.modified_date = modified_date;
-    }
-
-    public String getCreated_by() {
-        return created_by;
-    }
-
-    public void setCreated_by(String created_by) {
-        this.created_by = created_by;
-    }
-
-    public String getUpdated_by() {
-        return updated_by;
-    }
-
-    public void setUpdated_by(String updated_by) {
-        this.updated_by = updated_by;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
+    
     
 }
