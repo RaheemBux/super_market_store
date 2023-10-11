@@ -1,61 +1,60 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
- * @author Haseeb
+ * @author Ahmed
  */
 public class AuditableEntity {
-    private Date createDate;
-    private Date modifiedDate;
-    private String createdBy;
-    private String updatedBy;
-    private boolean active;
+    private Date createddate;
+    private Date modifieddate;
+    private String createdby;
+    private String updatedby;
+    private Boolean status;
     
-     public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createddate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createddate) {
+        this.createddate = createddate;
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifieddate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setModifiedDate(Date modifieddate) {
+        this.modifieddate = modifieddate;
     }
 
     public String getCreatedBy() {
-        return createdBy;
+        return createdby;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setCreatedBy(String createdby) {
+        this.createdby = createdby;
     }
 
     public String getUpdatedBy() {
-        return updatedBy;
+        return updatedby;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setUpdatedBy(String updatedby) {
+        this.updatedby = updatedby;
     }
 
-    public boolean isActive() {
-        return active;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
 }
