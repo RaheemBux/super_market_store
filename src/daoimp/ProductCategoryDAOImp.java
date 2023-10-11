@@ -73,7 +73,7 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
 	public boolean addProduct(ProductCategoryModel product) {
 		
                
-                boolean success=false;
+                 boolean success=false;
 		try {
                    Connection connection =  (Connection) DbConnection.getConnection();
                    
