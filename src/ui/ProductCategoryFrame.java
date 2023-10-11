@@ -19,22 +19,21 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import model.ProductCategoryModel;
 
 
 /**
  *
  * @author SAQIB
  */
-public class ProductCategory extends javax.swing.JFrame {
+public class ProductCategoryFrame extends javax.swing.JFrame {
     ProductCategoryDAO pcDAO=new ProductCategoryDAOImp();
-    Object columns[]={"IDE","Name","Code","Date","Created_by","Updated_by","Status"};
+    Object columns[]={"ID","Name","Code","Date","Created_by","Updated_by","Status"};
     DefaultTableModel defaultTableModel;
     
     /**
      * Creates new form ProductCategory
      */
-    public ProductCategory() {
+    public ProductCategoryFrame() {
         initComponents();
         setLocationRelativeTo(null);
         fillbTable();
@@ -55,10 +54,10 @@ public class ProductCategory extends javax.swing.JFrame {
      
         private void fillbTable() {
         defaultTableModel = new DefaultTableModel(columns, 0);
-        List<ProductCategoryModel> prod = pcDAO.getAllProduct(); 
+        List<model.ProductCategory> prod = pcDAO.getAllProduct(); 
 
-        for (ProductCategoryModel c : prod) {
-            Object[] row = {c.getId(), c.getCategory_name(), c.getCategory_code(),c.getCreated_date(),c.getCreated_by(),c.getUpdated_by(),c.isActive()};
+        for (model.ProductCategory c : prod) {
+            Object[] row = {c.getId(), c.getCategoryName(), c.getCategoryCode(),c.getCreateDate(),c.getCreatedBy(),c.getUpdatedBy(),c.isActive()};
             defaultTableModel.addRow(row);
             productTable.setModel(defaultTableModel);
         }
@@ -69,16 +68,16 @@ public class ProductCategory extends javax.swing.JFrame {
         
         
         
-        private ProductCategoryModel getProdCtg() {
+        private model.ProductCategory getProdCtg() {
         String name = nameField.getText();
         String code = codeField.getText();
         String createdBy="sms";
         String updatedBy="sms";
-        ProductCategoryModel c = new ProductCategoryModel();
-        c.setCategory_name(name);
-        c.setCategory_code(code);
-        c.setCreated_by(createdBy);
-        c.setUpdated_by(updatedBy);
+        model.ProductCategory c = new model.ProductCategory();
+        c.setCategoryName(name);
+        c.setCategoryCode(code);
+        c.setCreatedBy(createdBy);
+        c.setUpdatedBy(updatedBy);
         return c;
     }
            
@@ -319,7 +318,7 @@ public class ProductCategory extends javax.swing.JFrame {
 //            
 //        }
 //        
-                ProductCategoryModel pc = new ProductCategoryModel();
+                model.ProductCategory pc = new model.ProductCategory();
                 ProductCategoryDAO pcd=new ProductCategoryDAOImp();
                 
                 int[] selectedRows = productTable.getSelectedRows();
@@ -328,8 +327,8 @@ public class ProductCategory extends javax.swing.JFrame {
                 {
                     String name=nameField.getText();
                     String code=codeField.getText();
-                    pc.setCategory_name(name);
-                    pc.setCategory_code(code);
+                    pc.setCategoryName(name);
+                    pc.setCategoryCode(code);
                     int id = (int) model.getValueAt(i, 0);
                     pc.setId(id);
                     
@@ -354,16 +353,16 @@ public class ProductCategory extends javax.swing.JFrame {
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         // TODO add your handling code here:
         ProductCategoryDAO pcd=new ProductCategoryDAOImp();
-        ProductCategoryModel pc = new ProductCategoryModel();
+        model.ProductCategory pc = new model.ProductCategory();
         String name=nameField.getText();
         String code=codeField.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-        String date = sdf.format(datePickerField.getDate());
-        pc.setCategory_name(name);
-        pc.setCategory_code(code);
-        pc.setCreated_date(date);
-        pc.setCreated_by("sms");
-        pc.setUpdated_by("sms");
+      //  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+       // String date = sdf.format(datePickerField.getDate());
+        pc.setCategoryName(name);
+        pc.setCategoryCode(code);
+        pc.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+        pc.setCreatedBy("sms");
+        pc.setUpdatedBy("sms");
         pc.setActive(true);
         boolean success = pcd.addProduct(pc);
         
@@ -396,9 +395,9 @@ public class ProductCategory extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
                 String name=nameField.getText();
-                ProductCategoryModel pc = new ProductCategoryModel();
+                model.ProductCategory pc = new model.ProductCategory();
                 ProductCategoryDAO pcd=new ProductCategoryDAOImp();
-                pc.setCategory_name(name);
+                pc.setCategoryName(name);
                 pc.setActive(false);
                 int[] selectedRows = productTable.getSelectedRows();
                 TableModel model=productTable.getModel();
@@ -429,14 +428,10 @@ public class ProductCategory extends javax.swing.JFrame {
         String name=model.getValueAt(index, 1).toString();
         String code=model.getValueAt(index, 2).toString();
         Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse((String)model.getValueAt(index, 3));
-            nameField.setText(name);
-            codeField.setText(code);
-            datePickerField.setDate(date);
-        } catch (ParseException ex) {
-            Logger.getLogger(ProductCategory.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        date = (Date) model.getValueAt(index, 3);
+        nameField.setText(name);
+        codeField.setText(code);
+        datePickerField.setDate(date);  
         
         
     }//GEN-LAST:event_productTableMouseClicked
@@ -458,21 +453,22 @@ public class ProductCategory extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProductCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductCategoryFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProductCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductCategoryFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProductCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductCategoryFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProductCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductCategoryFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ProductCategory().setVisible(true);
+                new ProductCategoryFrame().setVisible(true);
             }
         });
     }

@@ -6,7 +6,7 @@ package dao;
 
 import java.util.List;
 import java.util.Scanner;
-import model.ProductCategoryModel;
+import model.ProductCategory;
 
 /**
  *
@@ -17,22 +17,10 @@ public interface ProductCategoryDAO {
     /**
      *
      */
-   public List<ProductCategoryModel> getAllProduct();
-    public boolean addProduct(ProductCategoryModel product);
-    public boolean deleteCategory(ProductCategoryModel category);
-    public boolean updateCategory(ProductCategoryModel category);
-    public void updateStatus(String name,boolean status);
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    List<ProductCategory> getAllProduct();
+     boolean addProduct(ProductCategory product);
+     boolean deleteCategory(ProductCategory category);
+     boolean updateCategory(ProductCategory category);
+     void updateStatus(String name,boolean status);
+  
 }
