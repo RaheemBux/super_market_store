@@ -56,4 +56,5 @@ public class AuditableEntity {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
 }
