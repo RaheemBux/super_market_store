@@ -6,8 +6,9 @@ package constant;
 
 /**
  *
- * @author Govind Kumar
+ * @author Ahmed
  */
-public enum TestEnum {
-    
+public enum Status {
+    ACTIVE,
+    INACTIVE
 }
