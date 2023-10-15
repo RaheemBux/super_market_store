@@ -30,13 +30,13 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     private static final String GET_CUSTOMERDEALER_BY_ID = "SELECT * FROM customer_dealer where id=?;";
     private static final String DELETE_CUSTOMERDEALER = "UPDATE customer_dealer SET bool_active=False WHERE id=?;";
 
-    Connection connection = DbConnection.getConnection();
 
     @Override
     public boolean addCustomerDealer(CustomerDealer customerDealer) {
 
         boolean success = true;
         try {
+            Connection connection = DbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_CUSTOMERDEALER);
             preparedStatement.setString(1, customerDealer.getCustomerDealerName());
             preparedStatement.setObject(2, CustomerDealerEnum.valueOf(customerDealer.getCustomerDealerEnum().toString()).ordinal());
@@ -61,6 +61,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
 
         boolean success = true;
         try {
+            Connection connection = DbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMERDEALER);
             preparedStatement.setString(1, customerDealer.getCustomerDealerName());
             preparedStatement.setObject(2, CustomerDealerEnum.valueOf(customerDealer.getCustomerDealerEnum().toString()).ordinal());
@@ -84,6 +85,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     public boolean deleteCustomerDealer(Integer id) {
         boolean success = true;
         try {
+            Connection connection = DbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMERDEALER);
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
@@ -98,6 +100,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     public List<CustomerDealer> getAllCustomerDealer() {
         List<CustomerDealer> getAllCustomerDealers = new ArrayList<>();
         try {
+            Connection connection = DbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CUSTOMERDEALER);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -126,6 +129,7 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     @Override
     public CustomerDealer getCustomerDealerById(Integer id) {
         try {
+            Connection connection = DbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_CUSTOMERDEALER_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
