@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package dbconnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class DbConnection {
             if (connection == null) {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/super_market_store_system","root","root");
+                connection = DriverManager.getConnection("jdbc:mysql://LocalHost:3306/super_market_store_system", "root", "123456");
                 System.out.println("Connection created successfully...");
             }
         } catch (ClassNotFoundException ex) {
