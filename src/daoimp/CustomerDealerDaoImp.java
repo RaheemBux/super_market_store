@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import model.CustomerDealer;
 import dao.CustomerDealerDao;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,7 +31,11 @@ public class CustomerDealerDaoImp implements CustomerDealerDao {
     private static final String GET_CUSTOMERDEALER_BY_ID = "SELECT * FROM customer_dealer where id=?;";
     private static final String DELETE_CUSTOMERDEALER = "UPDATE customer_dealer SET bool_active=False WHERE id=?;";
 
-    Connection connection = DbConnection.getConnection();
+    Connection connection;
+
+    public CustomerDealerDaoImp() throws SQLException {
+        this.connection = DbConnection.getConnection();
+    }
 
     @Override
     public boolean addCustomerDealer(CustomerDealer customerDealer) {

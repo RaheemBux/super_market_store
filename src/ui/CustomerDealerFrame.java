@@ -8,8 +8,11 @@ package ui;
 import constant.CustomerDealerEnum;
 import dao.CustomerDealerDao;
 import daoimp.CustomerDealerDaoImp;
+import java.sql.SQLException;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -27,7 +30,8 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
      */
     Integer customerDealerId;
 
-    public CustomerDealerFrame() {
+    public CustomerDealerFrame() throws SQLException {
+        this.customerDealerDao = new CustomerDealerDaoImp();
         initComponents();
         fillCustomerDealerTable();
         filltypeComboBox();
@@ -36,7 +40,7 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
     String columns[] = {"ID", "NAME", "Type", "EMAIL", "PHONE NUMBER", "ADDRESS", "CREATED DATE", "MODIFIED DATE","CREATED BY","UPDATED BY"};
     DefaultTableModel customerDealerDefaultTableModel;
 
-    CustomerDealerDao customerDealerDao = new CustomerDealerDaoImp();
+    CustomerDealerDao customerDealerDao;
 
     private void fillCustomerDealerTable() {
         customerDealerDefaultTableModel = new DefaultTableModel(columns, 0);
@@ -433,7 +437,11 @@ public class CustomerDealerFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CustomerDealerFrame().setVisible(true);
+                try {
+                    new CustomerDealerFrame().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerDealerFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
