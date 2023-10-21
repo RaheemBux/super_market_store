@@ -6,11 +6,16 @@ package ui;
 
 import dao.ProductDao;
 import daoimp.ProductDaoImpl;
+import dao.ProductCategoryDao;
+import daoimp.ProductCategoryDaoImpl;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Product;
+import model.ProductCategory;
 
 /**
  *
@@ -21,28 +26,42 @@ public class ProductFrame extends javax.swing.JFrame {
     /**
      * Creates new form ProductFrame
      */
-    String[] column = {"ID", "Name", "Category id", "Brand", "Description", "Created Date", "Modified Date",
+    String[] column = {"ID", "Name", "Category Name", "Brand", "Description", "Created Date", "Modified Date",
         "Created By", "Updated By", "Status"};
+    
     DefaultTableModel productTableModel = null;
     ProductDao productdao = new ProductDaoImpl();
+    DefaultComboBoxModel<String> combobox = null;
+    ProductCategoryDao categorydao = new ProductCategoryDaoImpl();
     Product product = null;
+    ProductCategory productcategory = null;
     int productid;
 
     public ProductFrame() {
         initComponents();
         ProductTable();
+        CategoryComboBox();
     }
-
+    
+    private void CategoryComboBox(){
+        combobox = new DefaultComboBoxModel<>();
+        List<ProductCategory> categorylist = categorydao.getAllProductCategory();
+        
+        for(ProductCategory pc : categorylist){
+            combobox.addElement(pc.getCategoryName());
+        }
+        categoryComboBox.setModel(combobox);
+    }
     private void ProductTable() {
         productTableModel = new DefaultTableModel(column, 0);
         List<Product> product = productdao.getAllProduct();
 
         for (Product p : product) {
-
-            Object[] row = {p.getId(), p.getName(), p.getCategoryId(), p.getBrand(), p.getDescription(), p.getCreatedDate(), p.getModifiedDate(), p.getCreatedBy(), p.getUpdatedBy(), p.getStatus()};
+            
+            Object[] row = {p.getId(), p.getName(), p.getCategory().getCategoryName(), p.getBrand(), p.getDescription(), p.getCreatedDate(), p.getModifiedDate(), p.getCreatedBy(), p.getUpdatedBy(), p.getStatus()};
             productTableModel.addRow(row);
             productTable.setModel(productTableModel);
-
+           
         }
         productTable.getColumnModel().getColumn(0).setWidth(0);
         productTable.getColumnModel().getColumn(0).setMinWidth(0);
@@ -51,14 +70,16 @@ public class ProductFrame extends javax.swing.JFrame {
 
     private void fetchFieldsData() {
         String name = nameField.getText();
-        int category_id = (int) categoryidField.getValue();
+        String category = (String) categoryComboBox.getSelectedItem();
         String brand = brandField.getText();
         String description = descriptionField.getText();
 
         product = new Product();
 
+        
         product.setName(name);
-        product.setCategoryId(category_id);
+        productcategory = categorydao.getCategoryByName(category);
+        product.setCategory(productcategory);
         product.setBrand(brand);
         product.setDescription(description);
     }
@@ -75,24 +96,20 @@ public class ProductFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        categoryidField = new javax.swing.JSpinner();
         brandField = new javax.swing.JTextField();
-        addorchangebyField = new javax.swing.JTextField();
-        updatedbyField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionField = new javax.swing.JTextArea();
         addbtn = new javax.swing.JButton();
         namelbl = new javax.swing.JLabel();
         categoryidlbl = new javax.swing.JLabel();
         brandlbl = new javax.swing.JLabel();
-        addorchangebylbl = new javax.swing.JLabel();
-        updatedbylbl = new javax.swing.JLabel();
         descriptionlbl = new javax.swing.JLabel();
         updatebtn = new javax.swing.JButton();
         deletebtn = new javax.swing.JButton();
         clearbtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         productTable = new javax.swing.JTable();
+        categoryComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,23 +146,9 @@ public class ProductFrame extends javax.swing.JFrame {
             }
         });
 
-        categoryidField.setAutoscrolls(true);
-
         brandField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 brandFieldActionPerformed(evt);
-            }
-        });
-
-        addorchangebyField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addorchangebyFieldActionPerformed(evt);
-            }
-        });
-
-        updatedbyField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updatedbyFieldActionPerformed(evt);
             }
         });
 
@@ -176,12 +179,6 @@ public class ProductFrame extends javax.swing.JFrame {
 
         brandlbl.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         brandlbl.setText("Product Brand");
-
-        addorchangebylbl.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        addorchangebylbl.setText("Created By / Updated By");
-
-        updatedbylbl.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        updatedbylbl.setText("Updated By");
 
         descriptionlbl.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         descriptionlbl.setText("Product Description");
@@ -245,22 +242,17 @@ public class ProductFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(categoryidField)
-                                .addComponent(nameField)
-                                .addComponent(brandField, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
-                                .addComponent(addorchangebyField, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
-                                .addComponent(updatedbyField, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nameField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(brandField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                             .addComponent(brandlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addorchangebylbl, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(updatedbylbl, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(namelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(63, 63, 63)
                                 .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(categoryidlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(categoryidlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -286,32 +278,22 @@ public class ProductFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(categoryidlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoryidField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(brandlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(brandField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addorchangebylbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addorchangebyField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(updatedbylbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(updatedbyField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(brandField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
-                .addGap(27, 27, 27)
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deletebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clearbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(52, 52, 52)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
-
-        addorchangebyField.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -324,16 +306,6 @@ public class ProductFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_brandFieldActionPerformed
 
-    private void addorchangebyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addorchangebyFieldActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_addorchangebyFieldActionPerformed
-
-    private void updatedbyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatedbyFieldActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_updatedbyFieldActionPerformed
-
     private void addbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addbtnMouseClicked
         // TODO add your handling code here:
 //        updatedbyField.setVisible(false);
@@ -342,11 +314,10 @@ public class ProductFrame extends javax.swing.JFrame {
     private void addbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbtnActionPerformed
         // TODO add your handling code 
         fetchFieldsData();
-        String addorupdateby = addorchangebyField.getText();
         Date createddate = new Date();
 
         product.setCreatedDate(createddate);
-        product.setCreatedBy(addorupdateby);
+        product.setCreatedBy(null);
         product.setStatus(true);
 
         boolean success = productdao.addProduct(product);
@@ -364,12 +335,11 @@ public class ProductFrame extends javax.swing.JFrame {
     private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
         // TODO add your handling code here:
         fetchFieldsData();
-        String addorupdateby = addorchangebyField.getText();
         Date modifieddate = new Date();
         
         product.setId(productid);
         product.setModifiedDate(modifieddate);
-        product.setUpdatedBy(addorupdateby);
+        product.setUpdatedBy(null);
         product.setStatus(true);
 
         boolean success = productdao.updateProduct(product);
@@ -401,9 +371,8 @@ public class ProductFrame extends javax.swing.JFrame {
     private void clearbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearbtnActionPerformed
         // TODO add your handling code here:
         nameField.setText("");
-        categoryidField.setValue(0);
+        categoryComboBox.setSelectedIndex(-1);
         brandField.setText("");
-        addorchangebyField.setText("");
         descriptionField.setText("");
 
     }//GEN-LAST:event_clearbtnActionPerformed
@@ -414,9 +383,8 @@ public class ProductFrame extends javax.swing.JFrame {
         product = productdao.getProductById(productid);
 
         nameField.setText(product.getName());
-        categoryidField.setValue(product.getCategoryId());
+//        categoryComboBox.setName(product.getCategory().getCategoryName());
         brandField.setText(product.getBrand());
-        addorchangebyField.setText(product.getCreatedBy());
         descriptionField.setText(product.getDescription());
 
     }//GEN-LAST:event_productTableMouseClicked
@@ -458,11 +426,9 @@ public class ProductFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addbtn;
-    private javax.swing.JTextField addorchangebyField;
-    private javax.swing.JLabel addorchangebylbl;
     private javax.swing.JTextField brandField;
     private javax.swing.JLabel brandlbl;
-    private javax.swing.JSpinner categoryidField;
+    private javax.swing.JComboBox<String> categoryComboBox;
     private javax.swing.JLabel categoryidlbl;
     private javax.swing.JButton clearbtn;
     private javax.swing.JButton deletebtn;
@@ -476,7 +442,5 @@ public class ProductFrame extends javax.swing.JFrame {
     private javax.swing.JLabel namelbl;
     private javax.swing.JTable productTable;
     private javax.swing.JButton updatebtn;
-    private javax.swing.JTextField updatedbyField;
-    private javax.swing.JLabel updatedbylbl;
     // End of variables declaration//GEN-END:variables
 }

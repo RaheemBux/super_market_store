@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
+import model.ProductCategory;
 
 public class ProductDaoImpl implements ProductDao {
 
@@ -23,7 +24,7 @@ public class ProductDaoImpl implements ProductDao {
             Connection connect = DbConnection.getConnection();
             PreparedStatement ps = connect.prepareStatement(INSERT_PRODUCT);
             ps.setString(1, product.getName());
-            ps.setInt(2, product.getCategoryId());
+            ps.setInt(2, product.getCategory().getId());
             ps.setString(3, product.getBrand());
             ps.setString(4, product.getDescription());
             ps.setDate(5, new java.sql.Date(product.getCreatedDate().getTime())); // Convert java.util.Date to java.sql.Date
@@ -46,7 +47,7 @@ public class ProductDaoImpl implements ProductDao {
             Connection connect = DbConnection.getConnection();
             PreparedStatement ps = connect.prepareStatement(UPDATE_PRODUCT);
             ps.setString(1, product.getName());
-            ps.setInt(2, product.getCategoryId());
+            ps.setInt(2, product.getCategory().getId());
             ps.setString(3, product.getBrand());
             ps.setString(4, product.getDescription());
 //            ps.setDate(5, (Date) product.getCreated_date());
@@ -97,7 +98,12 @@ public class ProductDaoImpl implements ProductDao {
                 Product product = new Product();
                 product.setId(rstproduct.getInt("id"));
                 product.setName(rstproduct.getString("product_name"));
-                product.setCategoryId(rstproduct.getInt("category_id"));
+                
+                ProductCategory pc = new ProductCategory();
+                pc.setId(rstproduct.getInt("id"));
+                
+                product.setCategory(pc);
+ 
                 product.setBrand(rstproduct.getString("brand"));
                 product.setDescription(rstproduct.getString("product_description"));
                 product.setCreatedDate(rstproduct.getDate("created_date"));
@@ -130,7 +136,12 @@ public class ProductDaoImpl implements ProductDao {
                 Product p = new Product();
                 p.setId(rstproduct.getInt("id"));
                 p.setName(rstproduct.getString("product_name"));
-                p.setCategoryId(rstproduct.getInt("category_id"));
+                
+                ProductCategory pc = new ProductCategory();
+                pc.setId(rstproduct.getInt("id"));
+                
+                p.setCategory(pc);
+                
                 p.setBrand(rstproduct.getString("brand"));
                 p.setDescription(rstproduct.getString("product_description"));
                 p.setCreatedDate(rstproduct.getDate("created_date"));
@@ -158,10 +169,18 @@ public class ProductDaoImpl implements ProductDao {
             PreparedStatement ps = connect.prepareStatement(SHOW_ALL_PRODUCTS);
             ResultSet rstproduct = ps.executeQuery();
             while (rstproduct.next()) {
+              
                 Product p = new Product();
+                
                 p.setId(rstproduct.getInt("id"));
                 p.setName(rstproduct.getString("product_name"));
-                p.setCategoryId(rstproduct.getInt("category_id"));
+                
+                ProductCategory pc = new ProductCategory();
+                pc.setId(rstproduct.getInt("id"));
+                pc.setCategoryName(rstproduct.getString("category_name"));
+                pc.setCategoryCode(rstproduct.getString("category_code"));
+                p.setCategory(pc);
+                
                 p.setBrand(rstproduct.getString("brand"));
                 p.setDescription(rstproduct.getString("product_description"));
                 p.setCreatedDate(rstproduct.getDate("created_date"));
@@ -170,12 +189,10 @@ public class ProductDaoImpl implements ProductDao {
                 p.setUpdatedBy(rstproduct.getString("updated_by"));
                 p.setStatus(rstproduct.getBoolean("bool_active"));
 
-                if (p.getStatus() == true) {
-                    product.add(p);
-                }
+                product.add(p);
 
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(ProductDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

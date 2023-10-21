@@ -29,17 +29,10 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="categoryidField" max="32767" attributes="0"/>
-                              <Component id="nameField" max="32767" attributes="0"/>
-                              <Component id="brandField" pref="354" max="32767" attributes="0"/>
-                              <Component id="addorchangebyField" pref="354" max="32767" attributes="0"/>
-                              <Component id="updatedbyField" pref="354" max="32767" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="nameField" alignment="1" max="32767" attributes="0"/>
+                          <Component id="brandField" alignment="1" pref="354" max="32767" attributes="0"/>
                           <Component id="brandlbl" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                          <Component id="addorchangebylbl" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                          <Component id="updatedbylbl" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
                           <Component id="namelbl" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="addbtn" min="-2" pref="123" max="-2" attributes="0"/>
@@ -47,6 +40,7 @@
                               <Component id="updatebtn" min="-2" pref="123" max="-2" attributes="0"/>
                           </Group>
                           <Component id="categoryidlbl" min="-2" pref="188" max="-2" attributes="0"/>
+                          <Component id="categoryComboBox" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -80,32 +74,24 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="categoryidlbl" min="-2" pref="24" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="categoryidField" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="categoryComboBox" min="-2" pref="33" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="brandlbl" min="-2" pref="24" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="brandField" min="-2" pref="33" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="addorchangebylbl" min="-2" pref="24" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="addorchangebyField" min="-2" pref="33" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="updatedbylbl" min="-2" pref="24" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="updatedbyField" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="addbtn" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="updatebtn" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="deletebtn" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="clearbtn" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="388" max="-2" attributes="0"/>
-              <EmptySpace pref="67" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="353" max="-2" attributes="0"/>
+              <EmptySpace pref="41" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -165,27 +151,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameFieldActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSpinner" name="categoryidField">
-      <Properties>
-        <Property name="autoscrolls" type="boolean" value="true"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="brandField">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brandFieldActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="addorchangebyField">
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
-      </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addorchangebyFieldActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="updatedbyField">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updatedbyFieldActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -243,22 +211,6 @@
           <Font name="Verdana" size="14" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Product Brand"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="addorchangebylbl">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Verdana" size="14" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Created By / Updated By"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="updatedbylbl">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Verdana" size="14" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Updated By"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="descriptionlbl">
@@ -328,5 +280,15 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JComboBox" name="categoryComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
   </SubComponents>
 </Form>

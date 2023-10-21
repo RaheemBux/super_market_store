@@ -6,7 +6,7 @@ package daoimp;
 
 import java.sql.*;
 //import com.sun.jdi.connect.spi.Connection;
-import dao.ProductCategoryDAO;
+import dao.ProductCategoryDao;
 import dbconnection.DbConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,21 +19,23 @@ import model.ProductCategory;
  *
  * @author SAQIB
  */
-public class ProductCategoryDAOImp implements ProductCategoryDAO {
+public class ProductCategoryDaoImpl implements ProductCategoryDao {
 
-    private final String SELECT_QUERY = "SELECT * FROM category where bool_active=true";
-    private final String INSERT_QUERY = "INSERT INTO category( category_name,category_code,created_date,created_by,updated_by,bool_active) VALUES (?,?, ?,?,?,?)";
+//    private final String SELECT_QUERY = "SELECT * FROM category where bool_active=true";
+    private final String SELECT_QUERY = "SELECT * FROM category";
+
+    private final String INSERT_QUERY = "INSERT INTO category( category_name,category_code,created_date,created_by,bool_active) VALUES (?,?,?,?,?,?)";
     private final String DELETE_QUERY = "DELETE FROM category WHERE category_name=?";
     private final String CHANGE_QUERY = "UPDATE category SET bool_active=? WHERE category_name=?";
-    private final String UPDATE_QUERY = "UPDATE category SET category_name=?, category_code= ? WHERE id=?";
+    private final String UPDATE_QUERY = "UPDATE category SET category_name=?, category_code= ?, modified_date = ?, updated_by = ?, WHERE id=?";
     private final String SELECT_BY_ID_QUERY = "SELECT id,category_name,category_code FROM category WHERE id= ?";
+    private final String GET_CATEGORY_BYID = "SELECT * FROM category where category_name = ?";
     private Object created_date;
 
     @Override
-    public List<ProductCategory> getAllProduct() {
+    public List<ProductCategory> getAllProductCategory() {
         Connection connection;
-        try {
-            connection = DbConnection.getConnection();
+//            connection = DbConnection.getConnection();
             try {
                 connection = DbConnection.getConnection();
 
@@ -48,10 +50,9 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
                     catg.setId(rst.getInt("id"));
                     catg.setCategoryName(rst.getString("category_name"));
                     catg.setCategoryCode(rst.getString("category_code"));
-                    catg.setCreateDate(rst.getDate("created_date"));
+                    catg.setCreatedDate(rst.getDate("created_date"));
                     catg.setCreatedBy(rst.getString("created_by"));
-                    catg.setUpdatedBy(rst.getString("updated_by"));
-                    catg.setActive(rst.getBoolean("bool_active"));
+                    catg.setStatus(rst.getBoolean("bool_active"));
 
                     catgList.add(catg);
                 }
@@ -60,9 +61,6 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductCategoryDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return null;
     }
 
@@ -77,10 +75,10 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
 //			ps.setInt(1, department.getId());
             ps.setString(1, product.getCategoryName());
             ps.setString(2, product.getCategoryCode());
-            ps.setDate(3, product.getCreateDate());
+            ps.setDate(3, new Date(product.getCreatedDate().getTime()));
             ps.setString(4, product.getCreatedBy());
             ps.setString(5, product.getUpdatedBy());
-            ps.setBoolean(6, product.isActive());
+            ps.setBoolean(6, product.getStatus());
 
             ps.execute();
             success = true;
@@ -100,13 +98,13 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
         try {
             con = DbConnection.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductCategoryDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductCategoryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         boolean success;
         try {
             PreparedStatement ps = con.prepareStatement(CHANGE_QUERY);
             ps.setString(2, category.getCategoryName());
-            ps.setBoolean(1, category.isActive());
+            ps.setBoolean(1, category.getStatus());
             ps.execute();
             success = true;
         } catch (SQLException e) {
@@ -122,14 +120,17 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
         try {
             con = DbConnection.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductCategoryDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductCategoryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         boolean success;
         try {
             PreparedStatement ps = con.prepareStatement(UPDATE_QUERY);
-            ps.setInt(3, category.getId());
             ps.setString(1, category.getCategoryName());
             ps.setString(2, category.getCategoryCode());
+            ps.setDate(3, new Date(category.getModifiedDate().getTime()));
+            ps.setString(4, category.getUpdatedBy());
+            ps.setInt(5, category.getId());
+            
 
             int n = ps.executeUpdate();
             System.out.print(n + " rows updated");
@@ -158,5 +159,30 @@ public class ProductCategoryDAOImp implements ProductCategoryDAO {
 
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ProductCategory getCategoryByName(String categoryname) {
+        try {
+            Connection connection = DbConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(GET_CATEGORY_BYID);
+            ps.setString(1, categoryname);
+            ResultSet rstcategory = ps.executeQuery();
+            
+            while(rstcategory.next()){
+                ProductCategory pc = new ProductCategory();
+                pc.setId(rstcategory.getInt("id"));
+                pc.setCategoryName(rstcategory.getString("category_name"));
+                pc.setCategoryCode(rstcategory.getString("category_code"));
+                
+                
+                return pc;
+            }
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductCategoryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 }
