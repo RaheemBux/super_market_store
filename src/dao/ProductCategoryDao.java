@@ -12,12 +12,14 @@ import model.ProductCategory;
  *
  * @author Govind Kumar
  */
-public interface ProductCategoryDAO {
+public interface ProductCategoryDao {
     
     /**
      *
+     * @return 
      */
-    List<ProductCategory> getAllProduct();
+     List<ProductCategory> getAllProductCategory();
+     ProductCategory getCategoryByName(String categoryname);
      boolean addProduct(ProductCategory product);
      boolean deleteCategory(ProductCategory category);
      boolean updateCategory(ProductCategory category);

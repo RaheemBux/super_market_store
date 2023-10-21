@@ -14,7 +14,7 @@ public class ProductCategory extends AuditableEntity {
     private String categoryName;
     private String categoryCode;
     
-    private Integer id;
+    private int id;
    
    
     public int getId() {

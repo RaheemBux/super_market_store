@@ -14,7 +14,7 @@ import java.util.Date;
 public class Product extends AuditableEntity{
     private int id;
     private String name;
-    private int categoryid;
+    private ProductCategory productcategory;
     private String brand;
     private String description;
     
@@ -35,12 +35,12 @@ public class Product extends AuditableEntity{
         this.name = name;
     }
 
-    public int getCategoryId() {
-        return categoryid;
+    public ProductCategory getCategory() {
+        return productcategory;
     }
 
-    public void setCategoryId(int categoryid) {
-        this.categoryid = categoryid;
+    public void setCategory(ProductCategory productcategory) {
+        this.productcategory = productcategory;
     }
 
     public String getBrand() {

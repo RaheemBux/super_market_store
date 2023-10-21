@@ -3,19 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ui;
-import dao.ProductCategoryDAO;
-import daoimp.ProductCategoryDAOImp;
-import dbconnection.DbConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import dao.ProductCategoryDao;
+import daoimp.ProductCategoryDaoImpl;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -26,7 +18,7 @@ import javax.swing.table.TableModel;
  * @author SAQIB
  */
 public class ProductCategoryFrame extends javax.swing.JFrame {
-    ProductCategoryDAO pcDAO=new ProductCategoryDAOImp();
+    ProductCategoryDao pcDAO=new ProductCategoryDaoImpl();
     Object columns[]={"ID","Name","Code","Date","Created_by","Updated_by","Status"};
     DefaultTableModel defaultTableModel;
     
@@ -57,7 +49,7 @@ public class ProductCategoryFrame extends javax.swing.JFrame {
         List<model.ProductCategory> prod = pcDAO.getAllProduct(); 
 
         for (model.ProductCategory c : prod) {
-            Object[] row = {c.getId(), c.getCategoryName(), c.getCategoryCode(),c.getCreateDate(),c.getCreatedBy(),c.getUpdatedBy(),c.isActive()};
+            Object[] row = {c.getId(), c.getCategoryName(), c.getCategoryCode(),c.getCreatedDate(),c.getCreatedBy(),c.getUpdatedBy(),c.getStatus()};
             defaultTableModel.addRow(row);
             productTable.setModel(defaultTableModel);
         }
@@ -319,7 +311,7 @@ public class ProductCategoryFrame extends javax.swing.JFrame {
 //        }
 //        
                 model.ProductCategory pc = new model.ProductCategory();
-                ProductCategoryDAO pcd=new ProductCategoryDAOImp();
+                ProductCategoryDao pcd=new ProductCategoryDaoImpl();
                 
                 int[] selectedRows = productTable.getSelectedRows();
                 TableModel model=productTable.getModel();
@@ -352,7 +344,7 @@ public class ProductCategoryFrame extends javax.swing.JFrame {
 
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         // TODO add your handling code here:
-        ProductCategoryDAO pcd=new ProductCategoryDAOImp();
+        ProductCategoryDao pcd=new ProductCategoryDaoImpl();
         model.ProductCategory pc = new model.ProductCategory();
         String name=nameField.getText();
         String code=codeField.getText();
@@ -360,10 +352,10 @@ public class ProductCategoryFrame extends javax.swing.JFrame {
        // String date = sdf.format(datePickerField.getDate());
         pc.setCategoryName(name);
         pc.setCategoryCode(code);
-        pc.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+        pc.setCreatedDate(new java.sql.Date(System.currentTimeMillis()));
         pc.setCreatedBy("sms");
         pc.setUpdatedBy("sms");
-        pc.setActive(true);
+        pc.setStatus(true);
         boolean success = pcd.addProduct(pc);
         
         if(success){
@@ -396,9 +388,9 @@ public class ProductCategoryFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
                 String name=nameField.getText();
                 model.ProductCategory pc = new model.ProductCategory();
-                ProductCategoryDAO pcd=new ProductCategoryDAOImp();
+                ProductCategoryDao pcd=new ProductCategoryDaoImpl();
                 pc.setCategoryName(name);
-                pc.setActive(false);
+                pc.setStatus(false);
                 int[] selectedRows = productTable.getSelectedRows();
                 TableModel model=productTable.getModel();
                 for(int i : selectedRows)
